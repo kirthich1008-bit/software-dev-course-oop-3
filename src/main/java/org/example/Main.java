@@ -18,7 +18,7 @@ public class Main {
 
     public static void mainMenu() {
         while(true) {
-            System.out.println("1. List all items");
+            System.out.println("\n1. List all items");
             System.out.println("2. Add new book");
             System.out.println("3. Add new album");
             System.out.println("4. Add new movie");
@@ -46,6 +46,10 @@ public class Main {
     }
 
     public static void listAllItems() {
+        if (library.isEmpty()) {
+            System.out.println("The library is currently empty.");
+            return;
+        }
         for (LibraryItem item : library) {
             System.out.println(item);
         }
@@ -60,6 +64,7 @@ public class Main {
         int year = scanner.nextInt();
         System.out.println("Enter page count:");
         int pageCount = scanner.nextInt();
+        scanner.nextLine(); // Clear the leftover newline from buffer
 
         library.add(new Book(title, author, year, pageCount));
     }
@@ -73,6 +78,7 @@ public class Main {
         int year = scanner.nextInt();
         System.out.println("Enter track count:");
         int trackCount = scanner.nextInt();
+        scanner.nextLine(); // Clear the leftover newline from buffer
 
         library.add(new Album(title, author, year, trackCount));
     }
@@ -86,15 +92,21 @@ public class Main {
         int year = scanner.nextInt();
         System.out.println("Enter duration in minutes:");
         int durationInMinutes = scanner.nextInt();
+        scanner.nextLine(); // Clear the leftover newline from buffer
 
         library.add(new Movie(title, author, year, durationInMinutes));
     }
 
     public static void readBooks() {
+        boolean hasBooks = false;
         for (LibraryItem item : library) {
             if (item instanceof Book) {
                 ((Book) item).readBook();
+                hasBooks = true;
             }
+        }
+        if (!hasBooks) {
+            System.out.println("No books in the library to read.");
         }
     }
 }
